@@ -1,31 +1,35 @@
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int height(TreeNode* root) {
-        if (root == NULL)
-            return 0;
-        return 1 + max(height(root->left), height(root->right));
-    }
-
-    void levelOrderTra(TreeNode* root, int curr, int target,
-                       vector<vector<int>>& ans, vector<int>& a) {
-
-        if (root == NULL) {
-            return;
-        }
-        if (curr == target) {
-            a.push_back(root->val);
-        }
-        levelOrderTra(root->left, curr + 1, target, ans, a);
-        levelOrderTra(root->right, curr + 1, target, ans, a);
-    }
-
     vector<vector<int>> levelOrder(TreeNode* root) {
-        int h = height(root);
+        queue<TreeNode*> qu;
         vector<vector<int>> ans;
-        for (int i = 0; i < h; i++) {
+        if (root == NULL)
+            return ans;
+        qu.push(root);
+        while (!qu.empty()) {
+            int size = qu.size();
             vector<int> a;
-            levelOrderTra(root, 0, i, ans, a);
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = qu.front();
+                qu.pop();
+                if (node->left != NULL)
+                    qu.push(node->left);
+                if (node->right != NULL)
+                    qu.push(node->right);
+                a.push_back(node->val);
+            }
             ans.push_back(a);
         }
         return ans;
