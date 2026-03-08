@@ -25,25 +25,23 @@ public:
         qu.push(root);
         while (!qu.empty()) {
             int size = qu.size();
-            Node* curr = qu.front();
+            Node* first = qu.front();
             qu.pop();
-            if (curr->left)
-                qu.push(curr->left);
-            if (curr->right)
-                qu.push(curr->right);
+            if (first->left)
+                qu.push(first->left);
+            if (first->right)
+                qu.push(first->right);
             for (int i = 1; i < size; i++) {
-                Node* sec = qu.front();
+                auto s = qu.front();
+                first->next = s;
+                first = s;
                 qu.pop();
-                curr->next = sec;
-                curr = sec;
-                if (sec->left) {
-                    qu.push(sec->left);
-                }
-                if (sec->right) {
-                    qu.push(sec->right);
-                }
+                if (s->left != NULL)
+                    qu.push(s->left);
+                if (s->right != NULL)
+                    qu.push(s->right);
             }
-            curr->next = NULL;
+            first->next = NULL;
         }
         return root;
     }
