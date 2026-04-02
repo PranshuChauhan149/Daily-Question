@@ -1,13 +1,13 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>> graph, int i, vector<int>& visited) {
-        visited[i] = 1;
-        for (auto e : graph[i]) {
-            if (!visited[e]) {
-                dfs(graph, e, visited);
-            }
-        }
-    }
+    // void dfs(vector<vector<int>> graph, int i, vector<int>& visited) {
+    //     visited[i] = 1;
+    //     for (auto e : graph[i]) {
+    //         if (!visited[e]) {
+    //             dfs(graph, e, visited);
+    //         }
+    //     }
+    // }
 
     int findCircleNum(vector<vector<int>>& isConnected) {
         int r = isConnected.size();
@@ -26,10 +26,23 @@ public:
         int count = 0;
 
         for (int i = 0; i < r; i++) {
-            if (!visited[i]) {
+            queue<int>qu;
+            if(!visited[i]){
                 count++;
-                dfs(graph, i, visited);
+                qu.push(i);
+
+                while(!qu.empty()){
+                    int d = qu.front();
+                    qu.pop();
+                    visited[d] = 1;
+                    for(auto e : graph[d]){
+                        if(!visited[e]){
+                            qu.push(e);
+                        }
+                    }
+                }
             }
+        
         }
         return count;
     }
