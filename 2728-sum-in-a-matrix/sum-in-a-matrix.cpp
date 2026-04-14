@@ -8,11 +8,11 @@ public:
         }
         int ans = 0;
         for (int i = 0; i < c; i++) {
-            priority_queue<int> pq;
+            int a = -1;
             for (int j = 0; j < r; j++) {
-                pq.push(nums[j][i]);
+                a = max(a,nums[j][i]);
             }
-            ans += pq.top();
+            ans += a;
         }
         return ans;
     }
