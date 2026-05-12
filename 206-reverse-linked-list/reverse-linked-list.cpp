@@ -11,16 +11,23 @@
 class Solution {
 public:
 
-    ListNode* rev(ListNode* curr,ListNode* prev){
-        if(curr==NULL) return prev;
-        ListNode* forword = curr->next;
+    ListNode* reverse(ListNode* head){
+      
+
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* forword = curr;
+        while(curr){
+        forword = curr->next;
         curr->next = prev;
         prev = curr;
-        curr=forword;
-        return rev(curr,prev);
+        curr = forword;
+        }
+        return prev;
     }
 
     ListNode* reverseList(ListNode* head) {
-        return rev(head,NULL);
+        ListNode* ans = reverse(head);
+        return ans;
     }
 };
