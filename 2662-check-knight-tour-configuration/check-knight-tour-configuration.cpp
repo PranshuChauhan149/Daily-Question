@@ -1,51 +1,40 @@
 class Solution {
 public:
-    vector<vector<int>> dir = {
-        {-2, -1}, {-1, -2}, {-2, 1}, {-1, 2},
-        {1, -2},  {2, -1},  {2, 1},  {1, 2}
-    };
+    vector<vector<int>> dir = {{-2, -1}, {-1, -2}, {-2, 1}, {-1, 2},
+                               {1, -2},  {2, -1},  {2, 1},  {1, 2}};
 
-    bool f(vector<vector<int>>& grid, int val, int r, int c,
-           vector<vector<int>>& visited) {
+    bool dfs(vector<vector<int>>& grid, int i, int j, int val,
+             vector<vector<int>>& visited) {
 
-        int row = grid.size();
-        int col = grid[0].size();
+        int r = grid.size();
+        int c = grid[0].size();
 
-        
-        if (r < 0 || r >= row || c < 0 || c >= col)
+        if (i < 0 || i >= r || j < 0 || j >= c || visited[i][j])
             return false;
 
-        if (visited[r][c])
-            return false;
-
-       
-        if (val == row * col - 1)
+        if (val == r * c - 1)
             return true;
 
-        visited[r][c] = 1;
-
-        
+        visited[i][j] = 1;
         for (auto d : dir) {
-            int nRow = r + d[0];
-            int nCol = c + d[1];
-
-            if (nRow >= 0 && nRow < row && nCol >= 0 && nCol < col) {
-                if (grid[nRow][nCol] == val + 1) {
-                    return f(grid, val + 1, nRow, nCol, visited);
-                }
+            int newR = d[0] + i;
+            int newC = d[1] + j;
+            if (newR >= 0 && newR < r && newC >= 0 && newC < c &&
+                visited[newR][newC] == 0 && grid[newR][newC] == val + 1) {
+                return dfs(grid, newR, newC, val + 1, visited);
             }
         }
-
         return false;
     }
 
     bool checkValidGrid(vector<vector<int>>& grid) {
-        int n = grid.size();
 
-     
-        if (grid[0][0] != 0) return false;
-
-        vector<vector<int>> visited(n, vector<int>(n, 0));
-        return f(grid, 0, 0, 0, visited);
+        int val = grid[0][0];
+        if (val != 0)
+            return false;
+        int r = grid.size();
+        int c = grid[0].size();
+        vector<vector<int>> visited(r, vector<int>(c, 0));
+        return dfs(grid, 0, 0, val, visited);
     }
 };
