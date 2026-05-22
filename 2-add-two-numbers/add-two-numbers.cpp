@@ -12,46 +12,32 @@ class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* dummy = new ListNode(-1);
-        ListNode* aa = dummy;
-        ListNode* t1 = l1;
-        ListNode* t2 = l2;
+        ListNode* temp = dummy;
         int carry = 0;
-        while(t1 && t2){
-            int d = carry +  t1->val + t2 ->val;
-            int val = d%10;
-            ListNode* a = new ListNode(val);
-            aa->next = a;
-            aa =aa->next;
-            carry  = d/10;
-            t1=t1->next;
-            t2=t2->next;
-        }
-        if(t1==NULL){
-            while(t2){
-             int d = carry + t2 ->val;
-            int val = d%10;
-            ListNode* a = new ListNode(val);
-            aa->next = a;
-            aa =aa->next;
-            carry  = d/10;
-            t2=t2->next;
+
+        while (l1 || l2) {
+            int sum = 0;
+
+            if (l1) {
+                sum += l1->val;
+                l1 = l1->next;
             }
-        }
-        if(t2==NULL){
-            while(t1){
-             int d = carry  +t1 ->val;
-            int val = d%10;
-            ListNode* a = new ListNode(val);
-            aa->next = a;
-            aa =aa->next;
-            carry  = d/10;
-            t1=t1->next;
+            if (l2) {
+                sum += l2->val;
+                l2 = l2->next;
             }
+            sum += carry;
+            int d = sum % 10;
+            carry = sum / 10;
+
+            ListNode* newNode = new ListNode(d);
+            temp->next = newNode;
+            temp = temp->next;
         }
-        if(carry){
-            ListNode* a = new ListNode(carry);
-            aa->next = a;
-            aa =aa->next;
+        if (carry) {
+            ListNode* newNode = new ListNode(carry);
+            temp->next = newNode;
+            temp = temp->next;
         }
         return dummy->next;
     }
