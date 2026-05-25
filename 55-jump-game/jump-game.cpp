@@ -1,25 +1,23 @@
 class Solution {
 public:
+    bool f(vector<int>& nums, int idx, vector<int>& dp) {
+        if (idx == nums.size() - 1)
+            return true;
 
-    bool f(vector<int>&nums,int i,vector<int>&dp){
-        if(i>=nums.size()-1) return true;
-        if(nums[i]==0) return false;        
-
-        if(dp[i]!=-1) return dp[i];
-        int idx = nums[i];
-        for(int k = 1;k<=idx;k++){
-            if(f(nums,i+k,dp)){
-               return  dp[i] = true;
-            }
+        if (nums[idx] == 0)
+            return false;
+        int d = nums[idx];
+        if (dp[idx] != -1)
+            return dp[idx];
+        for (int i = idx; i < d + idx; i++) {
+            if (f(nums, i + 1, dp))
+                return dp[idx] = true;
         }
-        return dp[i] = false;
-
+        return dp[idx] = false;
     }
 
     bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        if(n==1 &&  nums[0]==0) return true;
-        vector<int>dp(nums.size()+1,-1);
-        return f(nums,0,dp);
+        vector<int> dp(nums.size() + 1, -1);
+        return f(nums, 0, dp);
     }
 };
