@@ -1,29 +1,24 @@
 class Solution {
 public:
-
-    void f(string &s,vector<string>&ans,int left,int right){
-        if(left==0 && right==0){
+    void f(int n, int o, int c, string s, vector<string>& ans) {
+        if (s.size() == (2*n)) {
             ans.push_back(s);
-            return ;
+            return;
         }
-        if(left > 0){
-        s+='(';
-        f(s,ans,left-1,right);
-        s.pop_back();
+        if (o < n) {
+            f(n, o + 1, c, s + '(', ans);
         }
-        if(right > left){
-        s+=')';
-        f(s,ans,left,right-1);
-        s.pop_back();
+        if (c < o) {
+            f(n, o, c+1, s + ')', ans);
         }
-
+        
     }
 
     vector<string> generateParenthesis(int n) {
-       
-        string s = "";
-        vector<string>ans;
-        f(s,ans,n,n);
+        vector<string> ans;
+        int b = 0;
+    
+        f(n, 0, 0, "", ans);
         return ans;
     }
 };
