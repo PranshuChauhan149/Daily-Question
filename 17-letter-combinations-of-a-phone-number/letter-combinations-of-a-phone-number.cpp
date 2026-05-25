@@ -1,29 +1,31 @@
 class Solution {
 public:
-    void f(vector<string>& arr, string digits, int i, vector<string>& ans,
-           string& str) {
+   vector<string> arr = {
+        "", "", "abc", "def", "ghi",
+        "jkl", "mno", "pqrs", "tuv", "wxyz"
+    };
 
-        if (i >= digits.size()) {
-            ans.push_back(str);
+    void f(string str, string& s, int idx, vector<string>& ans) {
+        int n = str.size();
+        if (idx == n) {
+            if(!s.empty()) ans.push_back(s);
             return;
         }
 
-        char ch = digits[i];
-        int idx = ch - '0';
-        string a = arr[idx - 1];
-        for (int k = 0; k < a.size(); k++) {
-            str += a[k];
-            f(arr, digits, i + 1, ans, str);
-            str.pop_back();
+        int d = str[idx] - '0';
+        string g = arr[d];
+
+        for (int i = 0; i < g.size(); i++) {
+            s += g[i];
+            f(str, s, idx + 1, ans);
+            s.pop_back();
         }
     }
 
     vector<string> letterCombinations(string digits) {
-        vector<string> arr = {"",    "abc",  "def", "ghi", "jkl",
-                              "mno", "pqrs", "tuv", "wxyz"};
         vector<string> ans;
-        string str = "";
-        f(arr, digits, 0, ans, str);
+        string s = "";
+        f(digits, s, 0, ans);
         return ans;
     }
 };
