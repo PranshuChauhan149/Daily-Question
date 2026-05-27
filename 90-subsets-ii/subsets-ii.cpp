@@ -1,27 +1,30 @@
 class Solution {
 public:
- void f(vector<int>&arr,int i,vector<vector<int>>&ans,vector<int>&a){
-        
-        if(i == arr.size()){
-            ans.push_back(a);
-            return ;
+    set<vector<int>> st;
+
+    void f(vector<int>& nums, int i, vector<int>& a, vector<vector<int>>& ans) {
+        if (i == nums.size()) {
+            if (!st.count(a)) {
+                ans.push_back(a);
+                st.insert(a);
+            }
+            return;
         }
-        if(i>arr.size()) return ;
-        a.push_back(arr[i]);
-        f(arr,i+1,ans,a);
+
+        a.push_back(nums[i]);
+        f(nums, i + 1, a, ans);
         a.pop_back();
-        int idx = i+1;
-        while(idx < arr.size() && arr[idx] == arr[i]){
-            idx = idx + 1;
-        }
-        f(arr,idx,ans,a);
+        int idx = i + 1;
+        while (idx > nums.size() && nums[idx] == nums[i])
+            idx++;
+        f(nums, idx, a, ans);
     }
-  
-    vector<vector<int>> subsetsWithDup(vector<int>& arr) {
-         sort(arr.begin(),arr.end());
-        vector<vector<int>>ans;
-        vector<int>a;
-        f(arr,0,ans,a);
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> a;
+        vector<vector<int>> ans;
+        f(nums, 0, a, ans);
         return ans;
     }
 };
