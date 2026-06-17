@@ -1,38 +1,39 @@
 class Solution {
 public:
-
-    bool check(string str){
+    bool pl(string& s) {
         int i = 0;
-        int j = str.size()-1;
-        while(i<=j){
-            if(str[i]!=str[j]) return false;
-             i++;
+        int j = s.size() - 1;
+        while (i < j) {
+            if (s[i] != s[j]) {
+                return false;
+            }
+            i++;
             j--;
         }
         return true;
     }
 
     void f(string s, vector<string>& a, vector<vector<string>>& ans) {
-        int n = s.size();
+    if(s.size() == 0){
+        ans.push_back(a);
+        return;
+    }
 
-        if(s.size() == 0){
-            ans.push_back(a);
-        }
-
-        for (int i = 0; i < n; i++) {
-            string str = s.substr(0, i + 1);
-            if (check(str)) {
-                a.push_back(str);
-                f(s.substr(i + 1), a, ans);
+        for(int i = 0;i<s.size();i++){
+            string p = s.substr(0,i+1);
+            if(pl(p)){
+                a.push_back(p);
+                f(s.substr(i+1),a,ans);
                 a.pop_back();
             }
         }
+
     }
 
     vector<vector<string>> partition(string s) {
         vector<string> a;
         vector<vector<string>> ans;
-        f(s, a, ans);
+        f(s,  a, ans);
         return ans;
     }
 };
