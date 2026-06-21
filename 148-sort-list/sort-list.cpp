@@ -10,58 +10,56 @@
  */
 class Solution {
 public:
-
-     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-ListNode* ans = new ListNode(-1);
-ListNode* temp   = ans;
-ListNode*  t1 = list1;
-ListNode*  t2 = list2;
-
-while(t1!=NULL  &&  t2!=NULL){
-    if(t1->val<t2->val)
-    {
-        temp->next = t1;
-        t1=t1->next;
-        temp=temp->next;
+    ListNode* merge(ListNode* list1, ListNode* list2) {
+        ListNode* dummy = new ListNode(-1);
+        ListNode* temp = dummy;
+        ListNode* l1 = list1;
+        ListNode* l2 = list2;
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                
+                temp->next = l1;
+                temp = temp->next;
+                l1 = l1->next;
+            } else {
+              
+                temp->next = l2;
+                temp = temp->next;
+                l2 = l2->next;
+            }
+        }
+        if (l1) {
+            temp->next = l1;
+        }
+        else{
+            temp->next = l2;
+        }
+        return dummy->next;
     }
-    else{
-        temp->next = t2;
-        t2  = t2->next;
-        temp = temp->next;
-    }
-}
-if(t1!=NULL){
-    temp->next = t1;
 
-}
-else{
-    temp->next=t2;
-}
-
-return ans->next;
-    }
-    ListNode* middle(ListNode* head){
+    ListNode* middle(ListNode* head) {
         ListNode* slow = head;
         ListNode* fast = head->next;
-        while(fast && fast->next){
+        while (fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
         return slow;
-        
     }
 
-    ListNode* mergeSort(ListNode* head){
-        if( head==NULL || head->next==NULL) return head;
+    ListNode* mergeSort(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
         ListNode* left = middle(head);
         ListNode* right = left->next;
         left->next = NULL;
-        ListNode* l = mergeSort(head);
-        ListNode* r = mergeSort(right);
-        return mergeTwoLists(l,r);
+        ListNode* list1 = mergeSort(head);
+        ListNode* list2 = mergeSort(right);
+       return  merge(list1, list2);
     }
 
     ListNode* sortList(ListNode* head) {
         return mergeSort(head);
+        
     }
 };
