@@ -2,13 +2,23 @@ class Solution {
 public:
     int numberOfSubstrings(string s) {
         int n = s.size();
-        vector<int> a(3, -1);
         int ans = 0;
-        for (int i = 0; i < n; i++) {
-            a[s[i] - 'a'] = i;
-            if (a[0] != -1 && a[1] != -1 && a[2] != -1) {
-                ans += 1 + min({a[0], a[1], a[2]});
+        unordered_map<char, int> mp;
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            mp[s[j]]++;
+            if (mp.size() >= 3) {
+                while (mp.size() >= 3) {
+                ans += n - j;
+                    mp[s[i]]--;
+                    if (mp[s[i]] == 0) {
+                        mp.erase(s[i]);
+                    }
+                    i++;
+                }
             }
+            j++;
         }
         return ans;
     }
